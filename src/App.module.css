@@ -1,0 +1,54 @@
+.app {
+  display: flex;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ── Theme tokens ─────────────────────────────────────────────────── */
+.dark {
+  --bg: #181818;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-hover: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #d4d4d4;
+  --text-muted: rgba(255, 255, 255, 0.4);
+  --accent: #4a90d9;
+  --ring: #fff;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.light {
+  --bg: #f0ede8;
+  --surface: rgba(0, 0, 0, 0.04);
+  --surface-hover: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.06);
+  --text: #1a1a1a;
+  --text-muted: rgba(0, 0, 0, 0.4);
+  --accent: #2b6cb0;
+  --ring: #333;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ── Layout ───────────────────────────────────────────────────────── */
+.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow: auto;
+}
+
+/* ── Reset body margin ────────────────────────────────────────────── */
+:global(body) {
+  margin: 0;
+}
+
+/* ── react-colorful sizing ────────────────────────────────────────── */
+:global(.react-colorful) {
+  width: 100% !important;
+  height: 160px !important;
+  border-radius: 8px !important;
+}

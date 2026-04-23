@@ -1,0 +1,75 @@
+// Standard ANSI 60% layout — 61 keys, 15u × 5 rows
+const layout60 = [
+  // ── Row 0 — Number row ────────────────────────────────────────────
+  { id: 'grave',      label: '`',         x: 0,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '1',          label: '1',         x: 1,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '2',          label: '2',         x: 2,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '3',          label: '3',         x: 3,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '4',          label: '4',         x: 4,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '5',          label: '5',         x: 5,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '6',          label: '6',         x: 6,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '7',          label: '7',         x: 7,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '8',          label: '8',         x: 8,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '9',          label: '9',         x: 9,     y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: '0',          label: '0',         x: 10,    y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: 'minus',      label: '-',         x: 11,    y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: 'equal',      label: '=',         x: 12,    y: 0, w: 1,    h: 1, zone: 'number' },
+  { id: 'backspace',  label: 'Backspace', x: 13,    y: 0, w: 2,    h: 1, zone: 'modifier' },
+
+  // ── Row 1 — QWERTY row ────────────────────────────────────────────
+  { id: 'tab',        label: 'Tab',       x: 0,     y: 1, w: 1.5,  h: 1, zone: 'modifier' },
+  { id: 'q',          label: 'Q',         x: 1.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'w',          label: 'W',         x: 2.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'e',          label: 'E',         x: 3.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'r',          label: 'R',         x: 4.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 't',          label: 'T',         x: 5.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'y',          label: 'Y',         x: 6.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'u',          label: 'U',         x: 7.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'i',          label: 'I',         x: 8.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'o',          label: 'O',         x: 9.5,   y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'p',          label: 'P',         x: 10.5,  y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'bracketL',   label: '[',         x: 11.5,  y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'bracketR',   label: ']',         x: 12.5,  y: 1, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'backslash',  label: '\\',        x: 13.5,  y: 1, w: 1.5,  h: 1, zone: 'alpha' },
+
+  // ── Row 2 — Home row ──────────────────────────────────────────────
+  { id: 'capslock',   label: 'Caps Lock', x: 0,     y: 2, w: 1.75, h: 1, zone: 'modifier' },
+  { id: 'a',          label: 'A',         x: 1.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 's',          label: 'S',         x: 2.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'd',          label: 'D',         x: 3.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'f',          label: 'F',         x: 4.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'g',          label: 'G',         x: 5.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'h',          label: 'H',         x: 6.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'j',          label: 'J',         x: 7.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'k',          label: 'K',         x: 8.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'l',          label: 'L',         x: 9.75,  y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'semicolon',  label: ';',         x: 10.75, y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'quote',      label: "'",         x: 11.75, y: 2, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'enter',      label: 'Enter',     x: 12.75, y: 2, w: 2.25, h: 1, zone: 'modifier' },
+
+  // ── Row 3 — Bottom alpha row ──────────────────────────────────────
+  { id: 'shiftL',     label: 'Shift',     x: 0,     y: 3, w: 2.25, h: 1, zone: 'modifier' },
+  { id: 'z',          label: 'Z',         x: 2.25,  y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'x',          label: 'X',         x: 3.25,  y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'c',          label: 'C',         x: 4.25,  y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'v',          label: 'V',         x: 5.25,  y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'b',          label: 'B',         x: 6.25,  y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'n',          label: 'N',         x: 7.25,  y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'm',          label: 'M',         x: 8.25,  y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'comma',      label: ',',         x: 9.25,  y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'period',     label: '.',         x: 10.25, y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'slash',      label: '/',         x: 11.25, y: 3, w: 1,    h: 1, zone: 'alpha' },
+  { id: 'shiftR',     label: 'Shift',     x: 12.25, y: 3, w: 2.75, h: 1, zone: 'modifier' },
+
+  // ── Row 4 — Bottom modifiers ──────────────────────────────────────
+  { id: 'ctrlL',      label: 'Ctrl',      x: 0,     y: 4, w: 1.25, h: 1, zone: 'modifier' },
+  { id: 'winL',       label: 'Win',       x: 1.25,  y: 4, w: 1.25, h: 1, zone: 'modifier' },
+  { id: 'altL',       label: 'Alt',       x: 2.5,   y: 4, w: 1.25, h: 1, zone: 'modifier' },
+  { id: 'space',      label: 'Space',     x: 3.75,  y: 4, w: 6.25, h: 1, zone: 'alpha' },
+  { id: 'altR',       label: 'Alt',       x: 10,    y: 4, w: 1.25, h: 1, zone: 'modifier' },
+  { id: 'winR',       label: 'Win',       x: 11.25, y: 4, w: 1.25, h: 1, zone: 'modifier' },
+  { id: 'menu',       label: 'Menu',      x: 12.5,  y: 4, w: 1.25, h: 1, zone: 'modifier' },
+  { id: 'ctrlR',      label: 'Ctrl',      x: 13.75, y: 4, w: 1.25, h: 1, zone: 'modifier' },
+];
+
+export default layout60;

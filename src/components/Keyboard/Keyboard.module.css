@@ -1,0 +1,74 @@
+.keyboard {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── KeyCap ───────────────────────────────────────────────────────── */
+.keycap {
+  cursor: pointer;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 120ms ease;
+}
+
+.keycap:active {
+  transform: scale(0.94);
+}
+
+.keyRect {
+  stroke: rgba(0, 0, 0, 0.12);
+  stroke-width: 1;
+  rx: 6;
+  ry: 6;
+  transition: fill 150ms ease, filter 120ms ease;
+}
+
+.keycap:hover .keyRect {
+  filter: brightness(0.93);
+}
+
+.keyLabel {
+  fill: #222;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Selection ring ───────────────────────────────────────────────── */
+.selectionRing {
+  fill: none;
+  stroke: var(--ring, #fff);
+  stroke-width: 2;
+}
+
+.selectionShadow {
+  fill: none;
+  filter: url(#sel-glow);
+}
+
+/* ── WorkspaceToggle ──────────────────────────────────────────────── */
+.workspaceToggle {
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 120ms ease;
+}
+
+.workspaceToggle:hover {
+  background: var(--surface-hover);
+}

@@ -1,0 +1,132 @@
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 260px;
+  padding: 16px;
+  overflow-y: auto;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.buttonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* ── Zone / Layout pills ─────────────────────────────────────────── */
+.btn {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 100px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease;
+}
+
+.btn:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.btnActive {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btnActive:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── Apply button ─────────────────────────────────────────────────── */
+.applyBtn {
+  width: 100%;
+  margin-top: 4px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 120ms ease;
+}
+
+.applyBtn:hover {
+  opacity: 0.9;
+}
+
+.applyBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ── Color inputs ─────────────────────────────────────────────────── */
+.colorInputs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.colorRow {
+  display: flex;
+  gap: 6px;
+}
+
+.colorField {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.input {
+  width: 100%;
+  padding: 5px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font-size: 13px;
+  font-family: 'SF Mono', 'Menlo', ui-monospace, monospace;
+  box-sizing: border-box;
+  transition: border-color 120ms ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
