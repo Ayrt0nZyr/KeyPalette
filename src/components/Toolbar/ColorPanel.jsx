@@ -4,13 +4,17 @@ import { hexToRgb, rgbToHex, rgbToHsl, hslToRgb, isValidHex } from '../../utils/
 import styles from './Toolbar.module.css';
 
 export default function ColorPanel({ activeColor, onColorChange, onApply, hasSelection }) {
-  const [hexInput, setHexInput] = useState(activeColor);
-  const rgb = hexToRgb(activeColor);
+  // Section 10 will give activeColor === null its own mixed-state UI. Until then
+  // fall back to a neutral swatch so the picker, hex input, and RGB/HSL fields
+  // don't try to parse null.
+  const displayColor = activeColor ?? '#ffffff';
+  const [hexInput, setHexInput] = useState(displayColor);
+  const rgb = hexToRgb(displayColor);
   const hsl = rgbToHsl(rgb);
 
   useEffect(() => {
-    setHexInput(activeColor);
-  }, [activeColor]);
+    setHexInput(displayColor);
+  }, [displayColor]);
 
   const handleHexInput = (value) => {
     setHexInput(value);
@@ -34,7 +38,7 @@ export default function ColorPanel({ activeColor, onColorChange, onApply, hasSel
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>Color</h3>
-      <HexColorPicker color={activeColor} onChange={onColorChange} />
+      <HexColorPicker color={displayColor} onChange={onColorChange} />
 
       <div className={styles.colorInputs}>
         <label className={styles.colorField}>

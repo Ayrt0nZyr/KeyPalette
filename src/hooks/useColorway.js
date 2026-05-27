@@ -16,6 +16,19 @@ const DEFAULT_STATE = {
 const STORAGE_KEY = 'keycap-colorizer-slots';
 const MAX_SLOTS = 5;
 
+// Matches the fallback used in Keyboard.jsx when a key has no entry in keyColors.
+const DEFAULT_KEY_COLOR = '#ffffff';
+
+function computeActiveColor(selectedKeys, keyColors, currentActiveColor) {
+  if (selectedKeys.length === 0) return currentActiveColor;
+  const first = keyColors[selectedKeys[0]] ?? DEFAULT_KEY_COLOR;
+  for (let i = 1; i < selectedKeys.length; i++) {
+    const c = keyColors[selectedKeys[i]] ?? DEFAULT_KEY_COLOR;
+    if (c !== first) return null;
+  }
+  return first;
+}
+
 function buildInitialSlots() {
   return { active: 0, slots: [{ ...DEFAULT_STATE }] };
 }
@@ -54,6 +67,7 @@ export default function useColorway() {
     setStore((prev) => {
       const p = typeof prev === 'function' ? prev() : prev;
       const cur = p.slots[p.active];
+      if (cur.activeColor == null) return p;
       const keyColors = { ...cur.keyColors };
       for (const id of cur.selectedKeys) {
         keyColors[id] = cur.activeColor;
@@ -77,8 +91,9 @@ export default function useColorway() {
         } else {
           selectedKeys = [keyId];
         }
+        const activeColor = computeActiveColor(selectedKeys, cur.keyColors, cur.activeColor);
         const newSlots = [...p.slots];
-        newSlots[p.active] = { ...cur, selectedKeys };
+        newSlots[p.active] = { ...cur, selectedKeys, activeColor };
         return { ...p, slots: newSlots };
       });
     },
@@ -87,11 +102,18 @@ export default function useColorway() {
 
   const selectZone = useCallback(
     (zoneKey) => {
-      const layoutKeys = layouts[state.layout] ?? [];
-      const ids = layoutKeys.filter((k) => k.zone === zoneKey).map((k) => k.id);
-      update({ selectedKeys: ids });
+      setStore((prev) => {
+        const p = typeof prev === 'function' ? prev() : prev;
+        const cur = p.slots[p.active];
+        const layoutKeys = layouts[cur.layout] ?? [];
+        const selectedKeys = layoutKeys.filter((k) => k.zone === zoneKey).map((k) => k.id);
+        const activeColor = computeActiveColor(selectedKeys, cur.keyColors, cur.activeColor);
+        const newSlots = [...p.slots];
+        newSlots[p.active] = { ...cur, selectedKeys, activeColor };
+        return { ...p, slots: newSlots };
+      });
     },
-    [state.layout, update],
+    [setStore],
   );
 
   const setCaseColor = useCallback(
