@@ -17,7 +17,7 @@
 }
 
 .keyRect {
-  stroke: rgba(0, 0, 0, 0.12);
+  stroke: var(--ws-key-border);
   stroke-width: 1;
   rx: 6;
   ry: 6;
@@ -56,10 +56,10 @@
   right: 16px;
   width: 32px;
   height: 32px;
-  border: none;
+  border: 1px solid var(--ws-panel-border);
   border-radius: 50%;
-  background: var(--surface);
-  color: var(--text);
+  background: var(--ws-panel);
+  color: var(--ws-label);
   font-size: 16px;
   cursor: pointer;
   display: flex;

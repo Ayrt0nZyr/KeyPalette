@@ -5,7 +5,8 @@
   width: 260px;
   padding: 16px;
   overflow-y: auto;
-  background: var(--surface);
+  background: var(--ws-panel);
+  border-right: 1px solid var(--ws-panel-border);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
@@ -22,7 +23,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--text-muted);
+  color: var(--ws-label-muted);
 }
 
 .buttonGroup {
@@ -37,7 +38,7 @@
   border: none;
   border-radius: 100px;
   background: transparent;
-  color: var(--text-muted);
+  color: var(--ws-label-muted);
   font-family: system-ui, -apple-system, sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -49,7 +50,7 @@
 
 .btn:hover {
   background: var(--surface-hover);
-  color: var(--text);
+  color: var(--ws-label);
 }
 
 .btnActive {
@@ -88,6 +89,71 @@
   cursor: not-allowed;
 }
 
+/* ── Reset Selected / Apply row ───────────────────────────────────── */
+.actionRow {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.actionRow .applyBtn {
+  flex: 1;
+  margin-top: 0;
+}
+
+.resetSelectedBtn {
+  padding: 8px 12px;
+  border: 1px solid var(--ws-input-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ws-label-muted);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.resetSelectedBtn:hover:not(:disabled) {
+  color: var(--ws-label);
+  border-color: var(--ws-label-muted);
+  background: var(--surface-hover);
+}
+
+.resetSelectedBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ── Reset All (danger) ───────────────────────────────────────────── */
+.dangerSection {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--ws-panel-border);
+}
+
+.resetAllBtn {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(217, 78, 78, 0.45);
+  border-radius: 6px;
+  background: transparent;
+  color: rgba(217, 78, 78, 0.9);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 120ms ease;
+}
+
+.resetAllBtn:hover {
+  background: rgba(217, 78, 78, 0.12);
+}
+
 /* ── Color inputs ─────────────────────────────────────────────────── */
 .colorInputs {
   display: flex;
@@ -110,16 +176,16 @@
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--ws-label-muted);
 }
 
 .input {
   width: 100%;
   padding: 5px 6px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--ws-input-border);
   border-radius: 4px;
-  background: transparent;
-  color: var(--text);
+  background: var(--ws-input-bg);
+  color: var(--ws-label);
   font-size: 13px;
   font-family: 'SF Mono', 'Menlo', ui-monospace, monospace;
   box-sizing: border-box;

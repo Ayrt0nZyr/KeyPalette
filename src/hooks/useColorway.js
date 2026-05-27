@@ -16,8 +16,10 @@ const DEFAULT_STATE = {
 const STORAGE_KEY = 'keycap-colorizer-slots';
 const MAX_SLOTS = 5;
 
-// Matches the fallback used in Keyboard.jsx when a key has no entry in keyColors.
-const DEFAULT_KEY_COLOR = '#ffffff';
+// Per V2 spec section 3: every key starts at and resets to this color.
+// Kept in sync with the render fallback in Keyboard.jsx.
+const DEFAULT_KEY_COLOR = '#e0e0e0';
+const DEFAULT_CASE_COLOR = '#1a1a1a';
 
 function computeActiveColor(selectedKeys, keyColors, currentActiveColor) {
   if (selectedKeys.length === 0) return currentActiveColor;
@@ -131,9 +133,40 @@ export default function useColorway() {
     [update],
   );
 
+  const resetSelectedKeys = useCallback(() => {
+    setStore((prev) => {
+      const p = typeof prev === 'function' ? prev() : prev;
+      const cur = p.slots[p.active];
+      if (cur.selectedKeys.length === 0) return p;
+      const keyColors = { ...cur.keyColors };
+      for (const id of cur.selectedKeys) {
+        keyColors[id] = DEFAULT_KEY_COLOR;
+      }
+      const activeColor = computeActiveColor(cur.selectedKeys, keyColors, cur.activeColor);
+      const newSlots = [...p.slots];
+      newSlots[p.active] = { ...cur, keyColors, activeColor };
+      return { ...p, slots: newSlots };
+    });
+  }, [setStore]);
+
+  // Wipes keyColors and caseColor only. Leaves layout, workspace, colorwayName,
+  // caseFinish, selectedKeys, and the saved slot list untouched.
   const resetAll = useCallback(() => {
-    update({ ...DEFAULT_STATE });
-  }, [update]);
+    setStore((prev) => {
+      const p = typeof prev === 'function' ? prev() : prev;
+      const cur = p.slots[p.active];
+      const keyColors = {};
+      const activeColor = computeActiveColor(cur.selectedKeys, keyColors, cur.activeColor);
+      const newSlots = [...p.slots];
+      newSlots[p.active] = {
+        ...cur,
+        keyColors,
+        caseColor: DEFAULT_CASE_COLOR,
+        activeColor,
+      };
+      return { ...p, slots: newSlots };
+    });
+  }, [setStore]);
 
   // Slot management
   const saveSlot = useCallback(
@@ -182,6 +215,7 @@ export default function useColorway() {
       setCaseColor,
       setCaseFinish,
       setWorkspace,
+      resetSelectedKeys,
       resetAll,
       saveSlot,
       loadSlot,
@@ -189,7 +223,8 @@ export default function useColorway() {
     }),
     [
       setLayout, setActiveColor, applyColorToSelected, toggleKeySelected,
-      selectZone, setCaseColor, setCaseFinish, setWorkspace, resetAll,
+      selectZone, setCaseColor, setCaseFinish, setWorkspace,
+      resetSelectedKeys, resetAll,
       saveSlot, loadSlot, createSlot,
     ],
   );

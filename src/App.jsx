@@ -8,7 +8,7 @@ export default function App() {
   const { state, actions } = useColorway();
 
   return (
-    <div className={`${styles.app} ${state.workspace === 'dark' ? styles.dark : styles.light}`}>
+    <div className={styles.app} data-workspace={state.workspace}>
       <WorkspaceToggle workspace={state.workspace} onToggle={actions.setWorkspace} />
       <Toolbar state={state} actions={actions} />
       <main className={styles.main}>

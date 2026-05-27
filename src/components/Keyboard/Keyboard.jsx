@@ -57,7 +57,7 @@ export default function Keyboard({ state, actions }) {
           key={k.id}
           keyData={k}
           unit={UNIT}
-          color={state.keyColors[k.id] ?? '#ffffff'}
+          color={state.keyColors[k.id] ?? '#e0e0e0'}
           selected={state.selectedKeys.includes(k.id)}
           onClick={actions.toggleKeySelected}
         />

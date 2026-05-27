@@ -3,11 +3,17 @@ import { HexColorPicker } from 'react-colorful';
 import { hexToRgb, rgbToHex, rgbToHsl, hslToRgb, isValidHex } from '../../utils/colorUtils.js';
 import styles from './Toolbar.module.css';
 
-export default function ColorPanel({ activeColor, onColorChange, onApply, hasSelection }) {
+export default function ColorPanel({
+  activeColor,
+  onColorChange,
+  onApply,
+  onResetSelected,
+  hasSelection,
+}) {
   // Section 10 will give activeColor === null its own mixed-state UI. Until then
-  // fall back to a neutral swatch so the picker, hex input, and RGB/HSL fields
-  // don't try to parse null.
-  const displayColor = activeColor ?? '#ffffff';
+  // fall back to the default keycap color so the picker, hex input, and RGB/HSL
+  // fields don't try to parse null.
+  const displayColor = activeColor ?? '#e0e0e0';
   const [hexInput, setHexInput] = useState(displayColor);
   const rgb = hexToRgb(displayColor);
   const hsl = rgbToHsl(rgb);
@@ -89,13 +95,23 @@ export default function ColorPanel({ activeColor, onColorChange, onApply, hasSel
         </div>
       </div>
 
-      <button
-        className={`${styles.btn} ${styles.applyBtn}`}
-        onClick={onApply}
-        disabled={!hasSelection}
-      >
-        Apply to Selected
-      </button>
+      <div className={styles.actionRow}>
+        <button
+          className={`${styles.btn} ${styles.applyBtn}`}
+          onClick={onApply}
+          disabled={!hasSelection}
+        >
+          Apply to Selected
+        </button>
+        <button
+          className={styles.resetSelectedBtn}
+          onClick={onResetSelected}
+          disabled={!hasSelection}
+          title="Reset selected keys to default color"
+        >
+          Reset
+        </button>
+      </div>
     </div>
   );
 }
