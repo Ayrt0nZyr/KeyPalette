@@ -7,6 +7,8 @@ const RESET_ALL_PROMPT =
   'Reset every key to the default color and the case to black?\n\n' +
   'Layout, workspace, and saved slots are kept.';
 
+const CASE_FINISHES = ['matte', 'gloss'];
+
 export default function Toolbar({ state, actions }) {
   const handleResetAll = () => {
     if (window.confirm(RESET_ALL_PROMPT)) {
@@ -24,7 +26,35 @@ export default function Toolbar({ state, actions }) {
         onApply={actions.applyColorToSelected}
         onResetSelected={actions.resetSelectedKeys}
         hasSelection={state.selectedKeys.length > 0}
+        colorHistory={state.colorHistory}
       />
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Case</h3>
+        <div className={styles.caseColorRow}>
+          <input
+            type="color"
+            className={styles.caseSwatch}
+            value={state.caseColor}
+            onChange={(e) => actions.setCaseColor(e.target.value)}
+            aria-label="Case color"
+            title="Case color"
+          />
+          <span className={styles.caseHex}>{state.caseColor}</span>
+        </div>
+        <div className={styles.segmented} role="group" aria-label="Case finish">
+          {CASE_FINISHES.map((finish) => (
+            <button
+              key={finish}
+              type="button"
+              className={`${styles.segmentBtn} ${state.caseFinish === finish ? styles.segmentBtnActive : ''}`}
+              onClick={() => actions.setCaseFinish(finish)}
+              aria-pressed={state.caseFinish === finish}
+            >
+              {finish}
+            </button>
+          ))}
+        </div>
+      </div>
       <div className={styles.dangerSection}>
         <button
           type="button"

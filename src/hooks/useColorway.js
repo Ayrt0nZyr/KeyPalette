@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import useLocalStorage from './useLocalStorage.js';
 import layouts from '../data/layouts/index.js';
 
@@ -15,6 +15,11 @@ const DEFAULT_STATE = {
 
 const STORAGE_KEY = 'keycap-colorizer-slots';
 const MAX_SLOTS = 5;
+
+// Section 4: recently-used colors, persisted separately from the slot store.
+const HISTORY_KEY = 'keycap-colorizer-color-history';
+const MAX_HISTORY = 16;
+const EMPTY_HISTORY = [];
 
 // Per V2 spec section 3: every key starts at and resets to this color.
 // Kept in sync with the render fallback in Keyboard.jsx.
@@ -38,10 +43,32 @@ function buildInitialSlots() {
 export default function useColorway() {
   const [store, setStore] = useLocalStorage(STORAGE_KEY, buildInitialSlots);
 
+  const [colorHistory, setColorHistory] = useLocalStorage(HISTORY_KEY, EMPTY_HISTORY);
+
   // Lazily normalise: if store was built by the factory, call it
   const normalised = typeof store === 'function' ? store() : store;
   const { active, slots } = normalised;
-  const state = slots[active] ?? { ...DEFAULT_STATE };
+  const slot = slots[active] ?? { ...DEFAULT_STATE };
+  // colorHistory lives in its own localStorage key but is surfaced on the
+  // state object so consumers can read it like any other field.
+  const state = { ...slot, colorHistory };
+
+  // Always points at the latest committed state so event handlers can read
+  // fresh values without re-creating callbacks on every render.
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
+  const pushToHistory = useCallback(
+    (hex) => {
+      if (!hex) return;
+      const h = hex.toLowerCase();
+      setColorHistory((prev) => {
+        const list = Array.isArray(prev) ? prev : [];
+        return [h, ...list.filter((c) => c !== h)].slice(0, MAX_HISTORY);
+      });
+    },
+    [setColorHistory],
+  );
 
   const update = useCallback(
     (patch) => {
@@ -78,7 +105,13 @@ export default function useColorway() {
       newSlots[p.active] = { ...cur, keyColors };
       return { ...p, slots: newSlots };
     });
-  }, [setStore]);
+    // Record the applied color once, reading the value synchronously from the
+    // ref so it doesn't depend on the (async) setStore updater running first.
+    const { activeColor, selectedKeys } = stateRef.current;
+    if (activeColor != null && selectedKeys.length > 0) {
+      pushToHistory(activeColor);
+    }
+  }, [setStore, pushToHistory]);
 
   const toggleKeySelected = useCallback(
     (keyId, additive) => {
