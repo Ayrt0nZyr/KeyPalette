@@ -1,4 +1,4 @@
-# Keycap Colorizer
+# KeyPalette--A Keycap Colorizer
 
 A lightweight, browser-based tool for designing and visualizing custom keycap colorways — before you buy.
 
