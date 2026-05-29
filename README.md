@@ -1,4 +1,4 @@
-# KeyPalette--A Keycap Colorizer
+# KeyPalette
 
 A lightweight, browser-based tool for designing and visualizing custom keycap colorways — before you buy.
 
@@ -64,7 +64,7 @@ Then open `http://localhost:5173` in your browser.
 ## Project Structure
 
 ```
-keycap-colorizer/
+keypalette/
 ├── src/
 │   ├── components/       # Keyboard, KeyCap, Case, Toolbar, ColorPanel, etc.
 │   ├── data/             # Layout maps (JSON), zone definitions, presets

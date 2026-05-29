@@ -10,6 +10,7 @@ export default function ColorPanel({
   onResetSelected,
   hasSelection,
   colorHistory = [],
+  onClearHistory,
 }) {
   // Section 10 will give activeColor === null its own mixed-state UI. Until then
   // fall back to the default keycap color so the picker, hex input, and RGB/HSL
@@ -48,18 +49,30 @@ export default function ColorPanel({
       <HexColorPicker color={displayColor} onChange={onColorChange} />
 
       {colorHistory.length > 0 && (
-        <div className={styles.historyStrip}>
-          {colorHistory.map((hex) => (
+        <div className={styles.history}>
+          <div className={styles.historyHeader}>
+            <span className={styles.historyLabel}>Recent</span>
             <button
-              key={hex}
               type="button"
-              className={styles.historySwatch}
-              style={{ background: hex }}
-              title={hex}
-              aria-label={`Use color ${hex}`}
-              onClick={() => onColorChange(hex)}
-            />
-          ))}
+              className={styles.historyClear}
+              onClick={onClearHistory}
+            >
+              Clear
+            </button>
+          </div>
+          <div className={styles.historyStrip}>
+            {colorHistory.map((hex) => (
+              <button
+                key={hex}
+                type="button"
+                className={styles.historySwatch}
+                style={{ background: hex }}
+                title={hex}
+                aria-label={`Use color ${hex}`}
+                onClick={() => onColorChange(hex)}
+              />
+            ))}
+          </div>
         </div>
       )}
 

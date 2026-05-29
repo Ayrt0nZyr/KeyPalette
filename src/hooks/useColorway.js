@@ -13,11 +13,11 @@ const DEFAULT_STATE = {
   workspace: 'dark',
 };
 
-const STORAGE_KEY = 'keycap-colorizer-slots';
+const STORAGE_KEY = 'keypalette-slots';
 const MAX_SLOTS = 5;
 
 // Section 4: recently-used colors, persisted separately from the slot store.
-const HISTORY_KEY = 'keycap-colorizer-color-history';
+const HISTORY_KEY = 'keypalette-color-history';
 const MAX_HISTORY = 16;
 const EMPTY_HISTORY = [];
 
@@ -69,6 +69,27 @@ export default function useColorway() {
     },
     [setColorHistory],
   );
+
+  // Prepend a batch of colors (e.g. an extracted palette) in order, so the
+  // first entry ends up leftmost. De-dupes within the batch and against
+  // existing history, then caps at MAX_HISTORY.
+  const addColorsToHistory = useCallback(
+    (hexes) => {
+      if (!Array.isArray(hexes) || hexes.length === 0) return;
+      const batch = [...new Set(hexes.filter(Boolean).map((h) => h.toLowerCase()))];
+      if (batch.length === 0) return;
+      setColorHistory((prev) => {
+        const list = Array.isArray(prev) ? prev : [];
+        const rest = list.filter((c) => !batch.includes(c));
+        return [...batch, ...rest].slice(0, MAX_HISTORY);
+      });
+    },
+    [setColorHistory],
+  );
+
+  const clearColorHistory = useCallback(() => {
+    setColorHistory([]);
+  }, [setColorHistory]);
 
   const update = useCallback(
     (patch) => {
@@ -279,6 +300,8 @@ export default function useColorway() {
       resetSelectedKeys,
       resetAll,
       applyPreset,
+      addColorsToHistory,
+      clearColorHistory,
       saveSlot,
       loadSlot,
       createSlot,
@@ -287,6 +310,7 @@ export default function useColorway() {
       setLayout, setActiveColor, applyColorToSelected, toggleKeySelected,
       selectZone, setCaseColor, setCaseFinish, setWorkspace,
       resetSelectedKeys, resetAll, applyPreset,
+      addColorsToHistory, clearColorHistory,
       saveSlot, loadSlot, createSlot,
     ],
   );

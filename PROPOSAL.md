@@ -1,4 +1,4 @@
-# Keycap Colorizer — Project Proposal
+# KeyPalette — Project Proposal
 
 ## Vision
 

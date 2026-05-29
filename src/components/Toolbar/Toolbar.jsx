@@ -11,7 +11,7 @@ const RESET_ALL_PROMPT =
 
 const CASE_FINISHES = ['matte', 'gloss'];
 
-export default function Toolbar({ state, actions }) {
+export default function Toolbar({ state, actions, onExtractFromImage }) {
   const handleResetAll = () => {
     if (window.confirm(RESET_ALL_PROMPT)) {
       actions.resetAll();
@@ -58,7 +58,15 @@ export default function Toolbar({ state, actions }) {
         onResetSelected={actions.resetSelectedKeys}
         hasSelection={state.selectedKeys.length > 0}
         colorHistory={state.colorHistory}
+        onClearHistory={actions.clearColorHistory}
       />
+      <button
+        type="button"
+        className={styles.extractBtn}
+        onClick={onExtractFromImage}
+      >
+        Extract from image
+      </button>
       <div className={styles.section}>
         <h3 className={styles.sectionTitle}>Case</h3>
         <div className={styles.caseColorRow}>

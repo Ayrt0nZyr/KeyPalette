@@ -1,9 +1,9 @@
-# Keycap Colorizer — Architecture
+# KeyPalette — Architecture
 
 ## File Structure
 
 ```
-keycap-colorizer/
+keypalette/
 ├── index.html
 ├── vite.config.js
 ├── package.json
@@ -149,7 +149,7 @@ Clicking a zone button in `ZonePanel` → adds all matching key IDs to `selected
 ## localStorage Schema
 
 ```js
-// Key: "keycap-colorizer-slots"
+// Key: "keypalette-slots"
 {
   slots: [
     {

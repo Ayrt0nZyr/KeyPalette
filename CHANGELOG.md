@@ -1,4 +1,4 @@
-# Keycap Colorizer — Changelog
+# KeyPalette — Changelog
 
 ---
 

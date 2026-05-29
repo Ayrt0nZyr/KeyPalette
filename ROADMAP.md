@@ -1,4 +1,4 @@
-# Keycap Colorizer — Roadmap
+# KeyPalette — Roadmap
 
 ## Overview
 
