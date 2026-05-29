@@ -1,6 +1,8 @@
 import LayoutSelector from './LayoutSelector.jsx';
 import ZonePanel from './ZonePanel.jsx';
 import ColorPanel from './ColorPanel.jsx';
+import presets from '../../data/presets.js';
+import { DEFAULT_KEY_COLOR } from '../../hooks/useColorway.js';
 import styles from './Toolbar.module.css';
 
 const RESET_ALL_PROMPT =
@@ -16,9 +18,38 @@ export default function Toolbar({ state, actions }) {
     }
   };
 
+  const handlePreset = (preset) => {
+    const hasCustomColors = Object.values(state.keyColors).some(
+      (c) => c !== DEFAULT_KEY_COLOR,
+    );
+    if (
+      !hasCustomColors ||
+      window.confirm(
+        `Load the "${preset.name}" preset? This replaces your current key colors and case.`,
+      )
+    ) {
+      actions.applyPreset(preset);
+    }
+  };
+
   return (
     <aside className={styles.toolbar}>
       <LayoutSelector current={state.layout} onSelect={actions.setLayout} />
+      <div className={styles.section}>
+        <h3 className={styles.sectionTitle}>Presets</h3>
+        <div className={styles.presetGroup}>
+          {presets.map((preset) => (
+            <button
+              key={preset.name}
+              type="button"
+              className={styles.presetPill}
+              onClick={() => handlePreset(preset)}
+            >
+              {preset.name}
+            </button>
+          ))}
+        </div>
+      </div>
       <ZonePanel onSelectZone={actions.selectZone} />
       <ColorPanel
         activeColor={state.activeColor}

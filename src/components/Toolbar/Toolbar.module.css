@@ -154,6 +154,32 @@
   background: rgba(217, 78, 78, 0.12);
 }
 
+/* ── Presets ──────────────────────────────────────────────────────── */
+.presetGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.presetPill {
+  padding: 5px 10px;
+  border: 1px solid var(--ws-input-border);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--ws-label-muted);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.presetPill:hover {
+  color: var(--ws-label);
+  border-color: var(--ws-label-muted);
+  background: var(--surface-hover);
+}
+
 /* ── Case finish ──────────────────────────────────────────────────── */
 .caseColorRow {
   display: flex;

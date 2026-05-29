@@ -23,7 +23,7 @@ const EMPTY_HISTORY = [];
 
 // Per V2 spec section 3: every key starts at and resets to this color.
 // Kept in sync with the render fallback in Keyboard.jsx.
-const DEFAULT_KEY_COLOR = '#e0e0e0';
+export const DEFAULT_KEY_COLOR = '#e0e0e0';
 const DEFAULT_CASE_COLOR = '#1a1a1a';
 
 function computeActiveColor(selectedKeys, keyColors, currentActiveColor) {
@@ -201,6 +201,34 @@ export default function useColorway() {
     });
   }, [setStore]);
 
+  // Overwrites keyColors, caseColor, and caseFinish from a preset. Zone colors
+  // are mapped onto every key in the current layout that belongs to that zone.
+  const applyPreset = useCallback(
+    (preset) => {
+      setStore((prev) => {
+        const p = typeof prev === 'function' ? prev() : prev;
+        const cur = p.slots[p.active];
+        const layoutKeys = layouts[cur.layout] ?? [];
+        const keyColors = {};
+        for (const k of layoutKeys) {
+          const zoneColor = preset.zones[k.zone];
+          if (zoneColor) keyColors[k.id] = zoneColor;
+        }
+        const activeColor = computeActiveColor(cur.selectedKeys, keyColors, cur.activeColor);
+        const newSlots = [...p.slots];
+        newSlots[p.active] = {
+          ...cur,
+          keyColors,
+          caseColor: preset.caseColor,
+          caseFinish: preset.caseFinish,
+          activeColor,
+        };
+        return { ...p, slots: newSlots };
+      });
+    },
+    [setStore],
+  );
+
   // Slot management
   const saveSlot = useCallback(
     (index, name) => {
@@ -250,6 +278,7 @@ export default function useColorway() {
       setWorkspace,
       resetSelectedKeys,
       resetAll,
+      applyPreset,
       saveSlot,
       loadSlot,
       createSlot,
@@ -257,7 +286,7 @@ export default function useColorway() {
     [
       setLayout, setActiveColor, applyColorToSelected, toggleKeySelected,
       selectZone, setCaseColor, setCaseFinish, setWorkspace,
-      resetSelectedKeys, resetAll,
+      resetSelectedKeys, resetAll, applyPreset,
       saveSlot, loadSlot, createSlot,
     ],
   );
