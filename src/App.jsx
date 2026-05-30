@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import useColorway from './hooks/useColorway.js';
 import Keyboard from './components/Keyboard/Keyboard.jsx';
 import Toolbar from './components/Toolbar/Toolbar.jsx';
@@ -9,6 +9,7 @@ import styles from './App.module.css';
 export default function App() {
   const { state, actions } = useColorway();
   const [imageModalOpen, setImageModalOpen] = useState(false);
+  const keyboardRef = useRef(null);
 
   return (
     <div className={styles.app} data-workspace={state.workspace}>
@@ -16,10 +17,11 @@ export default function App() {
       <Toolbar
         state={state}
         actions={actions}
+        keyboardRef={keyboardRef}
         onExtractFromImage={() => setImageModalOpen(true)}
       />
       <main className={styles.main}>
-        <Keyboard state={state} actions={actions} />
+        <Keyboard state={state} actions={actions} svgRef={keyboardRef} />
       </main>
       {imageModalOpen && (
         <ImagePaletteModal

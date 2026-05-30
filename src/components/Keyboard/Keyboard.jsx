@@ -6,7 +6,7 @@ import styles from './Keyboard.module.css';
 const UNIT = 54;
 const CASE_PADDING = 8;
 
-export default function Keyboard({ state, actions }) {
+export default function Keyboard({ state, actions, svgRef }) {
   const keys = layouts[state.layout] ?? [];
 
   const maxX = Math.max(...keys.map((k) => k.x + k.w));
@@ -19,6 +19,7 @@ export default function Keyboard({ state, actions }) {
   const filterId = 'case-shadow';
 
   return (
+    <div className={styles.boardWrap} ref={svgRef}>
     <svg
       className={styles.keyboard}
       width={svgW}
@@ -63,5 +64,6 @@ export default function Keyboard({ state, actions }) {
         />
       ))}
     </svg>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 import LayoutSelector from './LayoutSelector.jsx';
 import ZonePanel from './ZonePanel.jsx';
 import ColorPanel from './ColorPanel.jsx';
+import ExportPanel from '../ExportPanel/ExportPanel.jsx';
 import presets from '../../data/presets.js';
 import { DEFAULT_KEY_COLOR } from '../../hooks/useColorway.js';
 import styles from './Toolbar.module.css';
@@ -11,7 +12,7 @@ const RESET_ALL_PROMPT =
 
 const CASE_FINISHES = ['matte', 'gloss'];
 
-export default function Toolbar({ state, actions, onExtractFromImage }) {
+export default function Toolbar({ state, actions, keyboardRef, onExtractFromImage }) {
   const handleResetAll = () => {
     if (window.confirm(RESET_ALL_PROMPT)) {
       actions.resetAll();
@@ -94,6 +95,7 @@ export default function Toolbar({ state, actions, onExtractFromImage }) {
           ))}
         </div>
       </div>
+      <ExportPanel state={state} keyboardRef={keyboardRef} />
       <div className={styles.dangerSection}>
         <button
           type="button"

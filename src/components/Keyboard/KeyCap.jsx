@@ -22,6 +22,7 @@ export default function KeyCap({ keyData, unit, color, selected, onClick }) {
           height={h + 6}
           rx={8}
           ry={8}
+          data-selection-ring
           className={styles.selectionRing}
         />
       )}

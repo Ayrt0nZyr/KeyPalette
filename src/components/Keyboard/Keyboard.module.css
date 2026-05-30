@@ -1,3 +1,8 @@
+.boardWrap {
+  display: inline-block;
+  line-height: 0;
+}
+
 .keyboard {
   display: block;
   max-width: 100%;
