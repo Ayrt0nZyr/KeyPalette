@@ -40,6 +40,15 @@
   cursor: not-allowed;
 }
 
+.row {
+  display: flex;
+  gap: 6px;
+}
+
+.row .exportBtn {
+  flex: 1;
+}
+
 .error {
   margin: 0;
   font-size: 12px;

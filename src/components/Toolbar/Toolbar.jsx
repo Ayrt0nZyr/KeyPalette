@@ -95,7 +95,7 @@ export default function Toolbar({ state, actions, keyboardRef, onExtractFromImag
           ))}
         </div>
       </div>
-      <ExportPanel state={state} keyboardRef={keyboardRef} />
+      <ExportPanel state={state} actions={actions} keyboardRef={keyboardRef} />
       <div className={styles.dangerSection}>
         <button
           type="button"

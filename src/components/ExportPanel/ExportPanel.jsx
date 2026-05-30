@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { exportPng } from '../../utils/exportPng.js';
+import { downloadColorway, deserializeColorway } from '../../utils/exportJson.js';
 import styles from './ExportPanel.module.css';
 
-export default function ExportPanel({ state, keyboardRef }) {
+export default function ExportPanel({ state, actions, keyboardRef }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const fileInputRef = useRef(null);
 
   const handleExportPng = async () => {
     setError('');
@@ -19,6 +21,35 @@ export default function ExportPanel({ state, keyboardRef }) {
     }
   };
 
+  const handleExportJson = () => {
+    setError('');
+    try {
+      downloadColorway(state);
+    } catch (e) {
+      setError(`JSON export failed: ${e?.message || e}`);
+    }
+  };
+
+  const handleImportClick = () => {
+    setError('');
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    // Reset so selecting the same file again still fires onChange.
+    e.target.value = '';
+    if (!file) return;
+    setError('');
+    try {
+      const text = await file.text();
+      const data = deserializeColorway(text);
+      actions.importColorway(data);
+    } catch (err) {
+      setError(err?.message || 'Import failed.');
+    }
+  };
+
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>Export</h3>
@@ -30,6 +61,21 @@ export default function ExportPanel({ state, keyboardRef }) {
       >
         {busy ? 'Exporting…' : 'Export PNG'}
       </button>
+      <div className={styles.row}>
+        <button type="button" className={styles.exportBtn} onClick={handleExportJson}>
+          Export JSON
+        </button>
+        <button type="button" className={styles.exportBtn} onClick={handleImportClick}>
+          Import JSON
+        </button>
+      </div>
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".json"
+        onChange={handleFileChange}
+        style={{ display: 'none' }}
+      />
       {error && <p className={styles.error} role="alert">{error}</p>}
     </div>
   );

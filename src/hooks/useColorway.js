@@ -250,6 +250,33 @@ export default function useColorway() {
     [setStore],
   );
 
+  // Applies a validated imported colorway (V2 §9) onto the active slot,
+  // overwriting layout, case, key colors, and name. Selection is cleared.
+  const importColorway = useCallback(
+    (data) => {
+      setStore((prev) => {
+        const p = typeof prev === 'function' ? prev() : prev;
+        const cur = p.slots[p.active];
+        const keyColors = { ...data.keyColors };
+        const selectedKeys = [];
+        const activeColor = computeActiveColor(selectedKeys, keyColors, cur.activeColor);
+        const newSlots = [...p.slots];
+        newSlots[p.active] = {
+          ...cur,
+          layout: data.layout,
+          caseColor: data.caseColor ?? cur.caseColor,
+          caseFinish: data.caseFinish ?? cur.caseFinish,
+          keyColors,
+          colorwayName: data.name ?? cur.colorwayName,
+          selectedKeys,
+          activeColor,
+        };
+        return { ...p, slots: newSlots };
+      });
+    },
+    [setStore],
+  );
+
   // Slot management
   const saveSlot = useCallback(
     (index, name) => {
@@ -300,6 +327,7 @@ export default function useColorway() {
       resetSelectedKeys,
       resetAll,
       applyPreset,
+      importColorway,
       addColorsToHistory,
       clearColorHistory,
       saveSlot,
@@ -309,7 +337,7 @@ export default function useColorway() {
     [
       setLayout, setActiveColor, applyColorToSelected, toggleKeySelected,
       selectZone, setCaseColor, setCaseFinish, setWorkspace,
-      resetSelectedKeys, resetAll, applyPreset,
+      resetSelectedKeys, resetAll, applyPreset, importColorway,
       addColorsToHistory, clearColorHistory,
       saveSlot, loadSlot, createSlot,
     ],
