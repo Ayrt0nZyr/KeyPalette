@@ -18,6 +18,21 @@ export default function Keyboard({ state, actions, svgRef }) {
   const svgH = boardH + CASE_PADDING * 2;
   const filterId = 'case-shadow';
 
+  // Hex badge (V2 §10): only when exactly one key is selected. Positioned as a
+  // percentage of the wrapper so it tracks the key even when the responsive
+  // SVG scales down. Centered on the key's x-midpoint, 4px below it (CSS gap).
+  const selectedKey =
+    state.selectedKeys.length === 1
+      ? keys.find((k) => k.id === state.selectedKeys[0])
+      : null;
+  const badgeHex = selectedKey ? state.keyColors[selectedKey.id] ?? '#e0e0e0' : null;
+  const badgeLeft = selectedKey
+    ? (((selectedKey.x + selectedKey.w / 2) * UNIT + CASE_PADDING) / svgW) * 100
+    : 0;
+  const badgeTop = selectedKey
+    ? (((selectedKey.y + selectedKey.h) * UNIT + CASE_PADDING) / svgH) * 100
+    : 0;
+
   return (
     <div className={styles.boardWrap} ref={svgRef}>
     <svg
@@ -64,6 +79,17 @@ export default function Keyboard({ state, actions, svgRef }) {
         />
       ))}
     </svg>
+      {selectedKey && (
+        <button
+          type="button"
+          className={styles.hexBadge}
+          style={{ left: `${badgeLeft}%`, top: `${badgeTop}%` }}
+          onClick={() => navigator.clipboard?.writeText(badgeHex)}
+          title="Click to copy"
+        >
+          {badgeHex}
+        </button>
+      )}
     </div>
   );
 }

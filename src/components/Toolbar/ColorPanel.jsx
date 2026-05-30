@@ -12,9 +12,11 @@ export default function ColorPanel({
   colorHistory = [],
   onClearHistory,
 }) {
-  // Section 10 will give activeColor === null its own mixed-state UI. Until then
-  // fall back to the default keycap color so the picker, hex input, and RGB/HSL
-  // fields don't try to parse null.
+  // Mixed selection (V2 §10): activeColor is null when the selected keys hold
+  // differing colors. The picker/inputs fall back to a neutral color so they
+  // don't parse null; picking anything calls onColorChange, which clears the
+  // mixed state, after which Apply sets every selected key uniformly.
+  const isMixed = activeColor === null;
   const displayColor = activeColor ?? '#e0e0e0';
   const [hexInput, setHexInput] = useState(displayColor);
   const rgb = hexToRgb(displayColor);
@@ -46,6 +48,14 @@ export default function ColorPanel({
   return (
     <div className={styles.section}>
       <h3 className={styles.sectionTitle}>Color</h3>
+      {isMixed ? (
+        <>
+          <div className={styles.mixedSwatch} aria-hidden="true" />
+          <p className={styles.mixedNote}>Multiple colors — pick to override all</p>
+        </>
+      ) : (
+        <div className={styles.currentSwatch} style={{ background: displayColor }} />
+      )}
       <HexColorPicker color={displayColor} onChange={onColorChange} />
 
       {colorHistory.length > 0 && (

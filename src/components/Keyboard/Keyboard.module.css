@@ -1,6 +1,29 @@
 .boardWrap {
+  position: relative;
   display: inline-block;
   line-height: 0;
+}
+
+/* ── Hex badge (V2 §10) ───────────────────────────────────────────── */
+.hexBadge {
+  position: absolute;
+  transform: translate(-50%, 4px);
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--ws-panel);
+  border: 1px solid var(--ws-panel-border);
+  color: var(--ws-label);
+  font-family: 'SF Mono', 'Menlo', ui-monospace, monospace;
+  font-size: 10px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.hexBadge:hover {
+  background: var(--surface-hover);
 }
 
 .keyboard {

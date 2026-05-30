@@ -278,6 +278,32 @@
   color: #fff;
 }
 
+/* ── Color preview / mixed-color indicator (V2 §10) ───────────────── */
+.currentSwatch {
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--ws-key-border);
+}
+
+.mixedSwatch {
+  height: 28px;
+  border-radius: 6px;
+  border: 1px dashed var(--ws-label-muted);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--ws-input-bg),
+    var(--ws-input-bg) 6px,
+    var(--ws-panel) 6px,
+    var(--ws-panel) 12px
+  );
+}
+
+.mixedNote {
+  margin: 0;
+  font-size: 11px;
+  color: var(--ws-label-muted);
+}
+
 /* ── Color history strip ──────────────────────────────────────────── */
 .history {
   margin-top: 8px;
